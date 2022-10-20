@@ -27,18 +27,13 @@ export default class UserController implements UserControllerI {
         if(UserController.userController === null) {
             UserController.userController = new UserController();
 
-            // for testing without postman. Not RESTful
-            app.get("users", UserController.userController.createUser);
-            app.get("users/:uid/delete", UserController.userController.deleteUser);
-            app.get("users/delete", UserController.userController.deleteAllUsers);
-
             // RESTful User Web service API
-            app.get("/users", UserController.userController.findAllUsers);
-            app.get("/users/:uid", UserController.userController.findUserById);
-            app.post("/users", UserController.userController.createUser);
-            app.put("/users/:uid", UserController.userController.updateUser);
-            app.delete("/users/:uid", UserController.userController.deleteUser);
-            app.delete("/users", UserController.userController.deleteAllUsers);
+            app.get("/api/users", UserController.userController.findAllUsers);
+            app.get("/api/users/:uid", UserController.userController.findUserById);
+            app.post("/api/users", UserController.userController.createUser);
+            app.put("/api/users/:uid", UserController.userController.updateUser);
+            app.delete("/api/users/:uid", UserController.userController.deleteUser);
+            app.delete("/api/users", UserController.userController.deleteAllUsers);
         }
         return UserController.userController;
     }
