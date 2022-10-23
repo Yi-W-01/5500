@@ -1,1 +1,1 @@
-{"version":3,"file":"BookmarkModel.js","sourceRoot":"","sources":["../../../mongoose/bookmarks/BookmarkModel.ts"],"names":[],"mappings":";AAAA;;;GAGG;;AAEH,uCAAgC;AAChC,qDAA8C;AAE9C,MAAM,aAAa,GAAG,kBAAQ,CAAC,KAAK,CAAC,eAAe,EAAE,wBAAc,CAAC,CAAC;AAEtE,kBAAe,aAAa,CAAC"}
+{"version":3,"file":"BookmarkModel.js","sourceRoot":"","sources":["../../../mongoose/bookmarks/BookmarkModel.ts"],"names":[],"mappings":";AAAA;;;GAGG;;AAEF,qCAAoC;AACrC,qDAA8C;AAE9C,MAAM,aAAa,GAAG,QAAQ,CAAC,KAAK,CAAC,eAAe,EAAE,wBAAc,CAAC,CAAC;AAEtE,kBAAe,aAAa,CAAC"}

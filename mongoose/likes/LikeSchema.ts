@@ -1,7 +1,7 @@
 /**
  * @file Implements mongoose schema for likes
  */
- import mongoose, {Schema} from "mongoose";
+ import * as mongoose from 'mongoose'
  import Like from "../../models/likes/Like";
  
  /**
@@ -10,7 +10,7 @@
   * @property {ObjectId} likedBy The id of the user
   */
  const LikeSchema = new mongoose.Schema<Like>({
-     tuit: {type: Schema.Types.ObjectId, ref: "TuitModel"},
-     likedBy: {type: Schema.Types.ObjectId, ref: "UserModel"},
+     tuit: {type: mongoose.Schema.Types.ObjectId, ref: "TuitModel"},
+     likedBy: {type: mongoose.Schema.Types.ObjectId, ref: "UserModel"},
  }, {collection: "likes"});
  export default LikeSchema;

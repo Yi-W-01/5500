@@ -1,10 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
- * @file Implements an Express Node HTTP server.
- */
-const express_1 = require("express");
-const mongoose_1 = require("mongoose");
+const express = require("express");
+const mongoose = require("mongoose");
 const UserController_1 = require("./controllers/UserController");
 const TuitController_1 = require("./controllers/TuitController");
 const BookmarkController_1 = require("./controllers/BookmarkController");
@@ -12,9 +9,9 @@ const FollowController_1 = require("./controllers/FollowController");
 const MessageController_1 = require("./controllers/MessageController");
 const LikeController_1 = require("./controllers/LikeController");
 const cors = require('cors');
-const app = (0, express_1.default)();
+const app = express();
 app.use(cors());
-app.use(express_1.default.json());
+app.use(express.json());
 //connect to native database
 //mongoose.connect('mongodb://localhost:27017/tuit-db');
 // build the connection string
@@ -27,7 +24,7 @@ const DB_QUERY = "retryWrites=true&w=majority";
 //const connectionString = `${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${HOST}/${DB_NAME}?${DB_QUERY}`;
 const connectionString = `mongodb+srv://1w:5500@cluster0.9xnxk7s.mongodb.net/?retryWrites=true&w=majority`;
 // connect to the database
-mongoose_1.default.connect(connectionString);
+mongoose.connect(connectionString);
 app.get('/', (req, res) => res.send('Welcome to Foundation of Software Engineering'));
 //create RESTful APIs
 const userController = UserController_1.default.getInstance(app);

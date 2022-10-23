@@ -1,7 +1,7 @@
 /**
  * @file Implements mongoose schema for messages
  */
- import mongoose, {Schema} from "mongoose";
+ import * as mongoose from 'mongoose'
  import Message from "../../models/messages/Messages";
  
  /**
@@ -13,8 +13,8 @@
   */
  const MessageSchema = new mongoose.Schema<Message>({
      message: {type: String, required: true},
-     to: {type: Schema.Types.ObjectId, ref: "UserModel"},
-     from: {type: Schema.Types.ObjectId, ref: "UserModel"},
+     to: {type: mongoose.Schema.Types.ObjectId, ref: "UserModel"},
+     from: {type: mongoose.Schema.Types.ObjectId, ref: "UserModel"},
      sentOn: {type: Date, default: Date.now}
  }, {collection: "messages"});
  

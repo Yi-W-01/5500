@@ -1,7 +1,7 @@
 /**
  * @file Implements mongoose schema for follows
  */
-import mongoose, { Schema } from "mongoose";
+ import * as mongoose from 'mongoose'
 import Follow from "../../models/follows/Follow";
 
 /**
@@ -10,8 +10,8 @@ import Follow from "../../models/follows/Follow";
  * @property {ObjectId} userFollowed The id of the user that is followed by the other user
  */
 const FollowSchema = new mongoose.Schema<Follow>({
-    userFollowing: {type: Schema.Types.ObjectId, ref: "UserModel"},
-    userFollowed: {type: Schema.Types.ObjectId, ref: "UserModel"},
+    userFollowing: {type: mongoose.Schema.Types.ObjectId, ref: "UserModel"},
+    userFollowed: {type: mongoose.Schema.Types.ObjectId, ref: "UserModel"},
 }, {collection: "follows"});
 
 export default FollowSchema;
