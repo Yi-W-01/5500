@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -19,15 +23,23 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose = __importStar(require("mongoose"));
-const TuitSchema = new mongoose.Schema({
+/**
+ * @file Implements mongoose schema to CRUD documents in the tuits collection
+ */
+const mongoose_1 = __importStar(require("mongoose"));
+const TuitSchema = new mongoose_1.default.Schema({
     tuit: { type: String, required: true },
+    postedBy: { type: mongoose_1.Schema.Types.ObjectId, ref: "UserModel" },
     postedOn: { type: Date, default: Date.now },
-    postedBy: { type: mongoose.Schema.Types.ObjectId, ref: "UserModel" },
+    image: String,
+    youtube: String,
+    avatarLogo: String,
+    imageOverlay: String,
     stats: {
         replies: { type: Number, default: 0 },
         retuits: { type: Number, default: 0 },
-        likes: { type: Number, default: 0 }
+        likes: { type: Number, default: 0 },
+        dislikes: { type: Number, default: 0 }
     }
 }, { collection: "tuits" });
 exports.default = TuitSchema;

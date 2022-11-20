@@ -11,7 +11,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
  * @file Implements DAO managing data storage of tuits. Uses mongoose TuitModel
  * to integrate with MongoDB
  */
-import Tuit from "../models/tuits/Tuit";
 import TuitModel from "../mongoose/tuits/TuitModel";
 /**
  * @class TuitDao Implements Data Access Object managing data storage
@@ -21,12 +20,31 @@ import TuitModel from "../mongoose/tuits/TuitModel";
  */
 export default class TuitDao {
     constructor() {
+        this.findAllTuits = () => __awaiter(this, void 0, void 0, function* () {
+            return TuitModel.find()
+                .populate("postedBy")
+                .exec();
+        });
         /**
          * Uses TuitModel to retrieve all tuit documents from tuits collection
          * @returns Promise To be notified when the tuits are retrieved from
          * database
          */
-        this.findAllTuits = () => __awaiter(this, void 0, void 0, function* () { return TuitModel.find().populate("postedBy").exec(); });
+        this.findAllTuitsByUser = (uid) => __awaiter(this, void 0, void 0, function* () {
+            return TuitModel.find({ postedBy: uid })
+                .populate("postedBy")
+                .exec();
+        });
+        /**
+         * Uses TuitModel to retrieve single tuit document from tuits collection
+         * @param {string} tid User's primary key
+         * @returns Promise To be notified when tuit is retrieved from the database
+         */
+        this.findTuitById = (tid) => __awaiter(this, void 0, void 0, function* () {
+            return TuitModel.findById(tid)
+                .populate("postedBy")
+                .exec();
+        });
         /**
          * Inserts tuit instance into the database under user context
          * @param {string} uid User's primary key
@@ -34,61 +52,37 @@ export default class TuitDao {
          * @returns Promise To be notified when tuit is inserted into the database
          */
         this.createTuitByUser = (uid, tuit) => __awaiter(this, void 0, void 0, function* () { return TuitModel.create(Object.assign(Object.assign({}, tuit), { postedBy: uid })); });
+        /**
+         * Updates tuit with new values in database
+         * @param {string} tid Primary key of tuit to be modified
+         * @param {Tuit} tuit object containing properties and their new values
+         * @returns Promise To be notified when tuit is updated in the database
+         */
+        this.updateTuit = (tid, tuit) => __awaiter(this, void 0, void 0, function* () {
+            return TuitModel.updateOne({ _id: tid }, { $set: tuit });
+        });
+        /**
+         * Removes tuit from the database.
+         * @param {string} tid Primary key of tuit to be removed
+         * @returns Promise To be notified when tuit is removed from the database
+         */
+        this.deleteTuit = (tid) => __awaiter(this, void 0, void 0, function* () { return TuitModel.deleteOne({ _id: tid }); });
+        /**
+         * Updates tuit's stats in database
+         * @param {string} tid Primary key of tuit to be modified
+         * @param {any} newStats object of ne stats
+         * @returns Promise To be notified when tuit is updated in the database
+         */
         this.updateLikes = (tid, newStats) => __awaiter(this, void 0, void 0, function* () {
             return TuitModel.updateOne({ _id: tid }, { $set: { stats: newStats } });
         });
-    }
-    /**
-     * Uses TuitModel to retrieve single tuit document from tuits collection using the uid
-     * @param {string} uid User's primary key
-     * @returns Promise To be notified when tuit is retrieved from the database
-     */
-    findTuitsByUser(uid) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield TuitModel.find({ postedBy: uid });
-        });
-    }
-    /**
-     * Uses TuitModel to retrieve single tuit document from tuits collection
-     * @param {string} tid User's primary key
-     * @returns Promise To be notified when tuit is retrieved from the database
-     */
-    findTuitById(tid) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield TuitModel.find({ tid }).populate("postedBy").exec();
-        });
-    }
-    /**
-     * Inserts tuit instance into the database under user context
-     * @param {string} uid User's primary key
-     * @param {Tuit} tuit Instance to be inserted into the database
-     * @returns Promise To be notified when tuit is inserted into the database
-     */
-    createTuit(tuit) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield TuitModel.create(tuit);
-        });
-    }
-    /**
-     * Updates tuit with new values in database
-     * @param {string} tid Primary key of tuit to be modified
-     * @param {Tuit} tuit object containing properties and their new values
-     * @returns Promise To be notified when tuit is updated in the database
-     */
-    updateTuit(tid, tuit) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield TuitModel.updateOne({ _id: tid }, { $set: Tuit });
-        });
-    }
-    /**
-     * Removes tuit from the database.
-     * @param {string} tid Primary key of tuit to be removed
-     * @returns Promise To be notified when tuit is removed from the database
-     */
-    deleteTuit(tid) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield TuitModel.deleteOne({ _id: tid });
-        });
+        /**
+         * Removes tuit from the database. Used for testing
+         * @param {string} uid Primary key of the dummy user whose tuit to be removed
+         * @returns Promise To be notified when tuit is removed from the database
+         */
+        this.deleteTuitByUserId = (uid) => __awaiter(this, void 0, void 0, function* () { return TuitModel.deleteOne({ postedBy: uid }); });
+        this.updateStats = (tid, newStats) => __awaiter(this, void 0, void 0, function* () { return TuitModel.updateOne({ _id: tid }, { $set: { stats: newStats } }); });
     }
 }
 TuitDao.tuitDao = null;

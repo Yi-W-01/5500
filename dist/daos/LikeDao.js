@@ -32,10 +32,6 @@ class LikeDao {
                 .populate("likedBy")
                 .exec();
         });
-        this.findUserLikesTuit = (uid, tid) => __awaiter(this, void 0, void 0, function* () {
-            return LikeModel_1.default.findOne({ tuit: tid, likedBy: uid });
-        });
-        this.countHowManyLikedTuit = (tid) => __awaiter(this, void 0, void 0, function* () { return LikeModel_1.default.count({ tuit: tid }); });
         /**
          * Uses LikeModel to retrieve all tuits in like documents from likes collection liked by a user
          * @param {string} uid User's primary key
@@ -44,7 +40,12 @@ class LikeDao {
         this.findAllTuitsLikedByUser = (uid) => __awaiter(this, void 0, void 0, function* () {
             return LikeModel_1.default
                 .find({ likedBy: uid })
-                .populate("tuit")
+                .populate({
+                path: "tuit",
+                populate: {
+                    path: "postedBy" // replace tuit's postedBy reference with actual user document
+                }
+            })
                 .exec();
         });
         /**
@@ -61,6 +62,19 @@ class LikeDao {
          * @returns Promise To be notified when like is removed from the database
          */
         this.userUnlikesTuit = (uid, tid) => __awaiter(this, void 0, void 0, function* () { return LikeModel_1.default.deleteOne({ tuit: tid, likedBy: uid }); });
+        /**
+         * Check if the user has already liked the tuit
+         * @param {string} uid User's primary key
+         * @param {string} tid Tuit's primary key
+         * @returns Promise To be notified when like is removed from the database
+         */
+        this.findUserLikesTuit = (uid, tid) => __awaiter(this, void 0, void 0, function* () { return LikeModel_1.default.findOne({ tuit: tid, likedBy: uid }); });
+        /**
+         * Count how many likes this tuit has
+         * @param {string} tid Tuit's primary key
+         * @returns Promise To be notified when like is removed from the database
+         */
+        this.countHowManyLikedTuit = (tid) => __awaiter(this, void 0, void 0, function* () { return LikeModel_1.default.count({ tuit: tid }); });
     }
 }
 exports.default = LikeDao;
