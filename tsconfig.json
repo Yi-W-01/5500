@@ -1,12 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es6",
     "module": "commonjs",
     "outDir": "dist",
+    "target": "es6",
+    // Consider setting strict: true
     "sourceMap": true,
     "skipLibCheck": true,
+    "esModuleInterop": true
   },
   "moduleResolution":"node",
+  "ts-node": {
+    "files": true
+  },
   "files": [
     "server.ts",
     "./node_modules/@types/mocha/index.d.ts",
@@ -16,8 +21,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
-  "esModuleInterop": true,
-  "allowSyntheticDefaultImports": true
- }
- 
+  ]
+}

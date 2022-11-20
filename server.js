@@ -1,6 +1,3 @@
-/**
- * @file Implements an Express Node HTTP server.
- */
 import express from 'express';
 import mongoose from 'mongoose';
 import UserController from './controllers/UserController';
@@ -10,8 +7,24 @@ import FollowController from './controllers/FollowController';
 import MessageController from './controllers/MessageController';
 import LikeController from './controllers/LikeController';
 const cors = require('cors');
+const session = require("express-session");
 const app = express();
-app.use(cors());
+// app.use(cors({
+//     credentials: true,
+//     origin: process.env.CORS_ORIGIN
+// }));
+//app.use(cors());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*, http://localhost:3000/');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+const corsConfig = {
+    credentials: true,
+    origin: 'http://localhost:3000',
+};
+app.use(cors(corsConfig));
 app.use(express.json());
 //connect to native database
 //mongoose.connect('mongodb://localhost:27017/tuit-db');
@@ -26,6 +39,16 @@ const DB_QUERY = "retryWrites=true&w=majority";
 const connectionString = `mongodb+srv://1w:5500@cluster0.9xnxk7s.mongodb.net/?retryWrites=true&w=majority`;
 // connect to the database
 mongoose.connect(connectionString);
+let sess = {
+    secret: process.env.SECRET,
+    cookie: {
+        secure: false
+    }
+};
+if (process.env.ENV === 'PRODUCTION') {
+    app.set('trust proxy', 1); // trust first proxy
+    sess.cookie.secure = true; // serve secure cookies
+}
 app.get('/', (req, res) => res.send('Welcome to Foundation of Software Engineering'));
 //create RESTful APIs
 const userController = UserController.getInstance(app);

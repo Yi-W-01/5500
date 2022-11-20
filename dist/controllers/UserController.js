@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const UserDao_1 = require("../daos/UserDao");
+const UserDao_1 = __importDefault(require("../daos/UserDao"));
 /**
  * @class UserController Implements RESTful Web service API for users resource.
  * Defines the following HTTP endpoints:

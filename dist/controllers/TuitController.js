@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const TuitDao_1 = require("../daos/TuitDao");
+const TuitDao_1 = __importDefault(require("../daos/TuitDao"));
 /**
  * @class TuitController Implements RESTful Web service API for tuits resource.
  * Defines the following HTTP endpoints:
@@ -18,7 +21,32 @@ const TuitDao_1 = require("../daos/TuitDao");
  * RESTful Web service API
  */
 class TuitController {
-    constructor() { }
+    constructor() {
+        /**
+         * @param {Request} req Represents request from client, including path
+         * parameter tid identifying the primary key of the tuit to be retrieved
+         * @param {Response} res Represents response to client, including the
+         * body formatted as JSON containing the tuit that matches the user ID
+         */
+        this.findTuitsByUser = (req, res) => {
+            let userId = req.params.uid === "me"
+                && req.session['profile'] ?
+                req.session['profile']._id :
+                req.params.uid;
+            TuitController.tuitDao
+                .findTuitsByUser(userId)
+                .then((tuits) => res.json(tuits));
+        };
+        this.createTuitByUser = (req, res) => {
+            let userId = req.params.uid === "me"
+                && req.session['profile'] ?
+                req.session['profile']._id :
+                req.params.uid;
+            TuitController.tuitDao
+                .createTuitByUser(userId, req.body)
+                .then((tuit) => res.json(tuit));
+        };
+    }
     /**
      * Retrieves all tuits from the database and returns an array of tuits.
      * @param {Request} req Represents request from client
@@ -38,16 +66,6 @@ class TuitController {
      */
     findTuitById(req, res) {
         TuitController.tuitDao.findTuitById(req.params.tid)
-            .then(tuit => res.json(tuit));
-    }
-    /**
-     * @param {Request} req Represents request from client, including path
-     * parameter tid identifying the primary key of the tuit to be retrieved
-     * @param {Response} res Represents response to client, including the
-     * body formatted as JSON containing the tuit that matches the user ID
-     */
-    findTuitsByUser(req, res) {
-        TuitController.tuitDao.findTuitsByUser(req.params.uid)
             .then(tuit => res.json(tuit));
     }
     /**

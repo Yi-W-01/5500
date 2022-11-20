@@ -8,8 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const LikeModel_1 = require("../mongoose/likes/LikeModel");
+const LikeModel_1 = __importDefault(require("../mongoose/likes/LikeModel"));
 /**
  * @class LikeDao Implements Data Access Object managing data storage
  * of Likes
@@ -29,6 +32,10 @@ class LikeDao {
                 .populate("likedBy")
                 .exec();
         });
+        this.findUserLikesTuit = (uid, tid) => __awaiter(this, void 0, void 0, function* () {
+            return LikeModel_1.default.findOne({ tuit: tid, likedBy: uid });
+        });
+        this.countHowManyLikedTuit = (tid) => __awaiter(this, void 0, void 0, function* () { return LikeModel_1.default.count({ tuit: tid }); });
         /**
          * Uses LikeModel to retrieve all tuits in like documents from likes collection liked by a user
          * @param {string} uid User's primary key

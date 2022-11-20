@@ -1,7 +1,7 @@
 /**
  * @file Implements mongoose schema for messages
  */
-import mongoose, { Schema } from "mongoose";
+import * as mongoose from 'mongoose';
 /**
  * @typedef Message Represents the message object user sent
  * @property {string} message The content of the message
@@ -11,8 +11,8 @@ import mongoose, { Schema } from "mongoose";
  */
 const MessageSchema = new mongoose.Schema({
     message: { type: String, required: true },
-    to: { type: Schema.Types.ObjectId, ref: "UserModel" },
-    from: { type: Schema.Types.ObjectId, ref: "UserModel" },
+    to: { type: mongoose.Schema.Types.ObjectId, ref: "UserModel" },
+    from: { type: mongoose.Schema.Types.ObjectId, ref: "UserModel" },
     sentOn: { type: Date, default: Date.now }
 }, { collection: "messages" });
 export default MessageSchema;

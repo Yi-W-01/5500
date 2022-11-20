@@ -8,8 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const UserModel_1 = require("../mongoose/users/UserModel");
+const UserModel_1 = __importDefault(require("../mongoose/users/UserModel"));
 /**
  * @class UserDao Implements Data Access Object managing data storage
  * of Users
@@ -24,6 +27,18 @@ class UserDao {
           * database
           */
         this.deleteAllUsers = () => __awaiter(this, void 0, void 0, function* () { return UserModel_1.default.deleteMany({}); });
+        /**
+         * Finds all users from the database with given username and password.
+         * @returns Promise To be notified when user is retrieved from the database
+         */
+        this.findUserByCredentials = (username, password) => __awaiter(this, void 0, void 0, function* () { return UserModel_1.default.findOne({ username: username, password: password }); });
+        /**
+          * Uses UserModel to retrieve single user document from users collection
+          * by their username
+          * @param {string} username User's username
+          * @returns Promise To be notified when user is retrieved from the database
+          */
+        this.findUserByUsername = (username) => __awaiter(this, void 0, void 0, function* () { return UserModel_1.default.findOne({ username }); });
     }
     /**
      * Uses UserModel to retrieve all user documents from users collection

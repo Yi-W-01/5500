@@ -8,8 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const MessageModel_1 = require("../mongoose/messages/MessageModel");
+const MessageModel_1 = __importDefault(require("../mongoose/messages/MessageModel"));
 /**
  * @class MessageDao Implements Data Access Object managing data storage
  * of Messages

@@ -69,4 +69,17 @@ export default class TuitDao implements TuitDaoI{
     async deleteTuit(tid: string): Promise<any>{
         return await TuitModel.deleteOne({_id: tid});
     } 
+    /**
+     * Inserts tuit instance into the database under user context
+     * @param {string} uid User's primary key
+     * @param {Tuit} tuit Instance to be inserted into the database
+     * @returns Promise To be notified when tuit is inserted into the database
+     */
+     createTuitByUser = async (uid: string, tuit: Tuit): Promise<Tuit> =>
+     TuitModel.create({...tuit, postedBy: uid});
+
+    updateLikes = async (tid, newStats) =>
+        TuitModel.updateOne(
+            {_id: tid},
+            {$set: {stats: newStats}});
 }

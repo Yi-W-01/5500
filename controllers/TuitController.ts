@@ -86,9 +86,15 @@ export default class TuitController implements TuitControllerI{
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON containing the tuit that matches the user ID
      */
-    findTuitsByUser(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>): void {
-        TuitController.tuitDao.findTuitsByUser(req.params.uid)
-            .then(tuit => res.json(tuit))
+    findTuitsByUser = (req, res) => {
+        let userId = req.params.uid === "me"
+            && req.session['profile'] ?
+            req.session['profile']._id :
+            req.params.uid;
+
+        TuitController.tuitDao
+            .findTuitsByUser(userId)
+            .then((tuits) => res.json(tuits));
     }
 
     /**
@@ -126,4 +132,15 @@ export default class TuitController implements TuitControllerI{
             .then(status => res.json(status))
     }
 
+    createTuitByUser = (req, res) => {
+        let userId = req.params.uid === "me"
+                  && req.session['profile'] ?
+                  req.session['profile']._id :
+                  req.params.uid;
+      
+        TuitController.tuitDao
+          .createTuitByUser(userId, req.body)
+            .then((tuit) => res.json(tuit));
+      }
+      
 }
