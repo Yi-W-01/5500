@@ -1,3 +1,3 @@
-export default class Tag{
-    private tag: string = "";
-}
+export default class Tag {
+    private tag: string = '';
+};
